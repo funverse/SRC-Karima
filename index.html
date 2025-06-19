@@ -1,82 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SRC Karima</title>
-  <meta name="msapplication-TileColor" content="#af0a1a">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="shortcut icon" href="img/favicon.png">
-  <link rel="manifest" href="pwa-manifest.json">
-  <link rel="stylesheet" href="css/style.css">
-  <script type='text/javascript' src="js/main.js"></script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f0f0f0;
-      padding: 20px;
-    }
-    .struk {
-      width: 300px;
-      margin: auto;
-      background: #fff;
-      padding: 15px;
-      border: 1px dashed #000;
-    }
-    .item {
-      display: flex;
-      justify-content: space-between;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px;
-      background: #af0a1a;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> SRC Karima </title>
+    <meta name="msapplication-TileColor" content="#af0a1a">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="manifest" href="pwa-manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+    <script type='text/javascript' src="js/main.js"></script>
+    <style> 
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    </style>
 </head>
 <body>
-
-  <div class="struk" id="struk">
-    <h2>SRC Karima</h2>
-    <p>Pelanggan: Budi</p>
-    <p>Tanggal: <span id="tanggal"></span></p>
-    <div class="item"><span>Indomie</span><span>Rp3.000</span></div>
-    <div class="item"><span>Aqua</span><span>Rp3.000</span></div>
-    <hr>
-    <strong>Total: Rp6.000</strong>
-    <p>Terima kasih!</p>
-  </div>
-
-  <div style="text-align:center">
-    <button onclick="shareStruk()">📤 Share Struk Sebagai Gambar</button>
-  </div>
-
-  <script>
-    document.getElementById('tanggal').textContent = new Date().toLocaleString('id-ID');
-
-    async function shareStruk() {
-      const element = document.getElementById('struk');
-      const canvas = await html2canvas(element);
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-
-      const file = new File([blob], "struk-karima.png", { type: "image/png" });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: "Struk SRC Karima",
-          text: "Berikut struk belanja Anda."
-        });
-      } else {
-        alert("Fitur share file tidak didukung di perangkat ini.");
-      }
-    }
-  </script>
+  
+  SABAR BOSS, BELUM JADI NIH!!!
+  
 </body>
-</html>
 </html>
