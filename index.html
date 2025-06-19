@@ -12,60 +12,30 @@
   <link rel="stylesheet" href="css/style.css">
   <script type='text/javascript' src="js/main.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f4f4f4;
+      background: #f0f0f0;
       padding: 20px;
     }
-
     .struk {
+      width: 300px;
+      margin: auto;
       background: #fff;
       padding: 15px;
-      max-width: 400px;
-      margin: auto;
       border: 1px dashed #000;
     }
-
-    .struk h2 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
     .item {
       display: flex;
       justify-content: space-between;
-      margin: 5px 0;
     }
-
-    .hidden-print {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    input, button {
-      padding: 6px;
-      margin: 4px;
-      font-size: 14px;
-    }
-
     button {
-      cursor: pointer;
-      background-color: #af0a1a;
+      margin-top: 15px;
+      padding: 10px;
+      background: #af0a1a;
       color: white;
       border: none;
-      border-radius: 4px;
-    }
-
-    button:hover {
-      background-color: #870816;
-    }
-
-    @media print {
-      .hidden-print {
-        display: none;
-      }
+      cursor: pointer;
+      border-radius: 5px;
     }
   </style>
 </head>
@@ -73,71 +43,40 @@
 
   <div class="struk" id="struk">
     <h2>SRC Karima</h2>
-    <p id="tanggal"></p>
-    <p>Pelanggan: <span id="nama-pelanggan-text">-</span></p>
-    <div id="item-list"></div>
+    <p>Pelanggan: Budi</p>
+    <p>Tanggal: <span id="tanggal"></span></p>
+    <div class="item"><span>Indomie</span><span>Rp3.000</span></div>
+    <div class="item"><span>Aqua</span><span>Rp3.000</span></div>
     <hr>
-    <p><strong>Total: Rp <span id="total">0</span></strong></p>
+    <strong>Total: Rp6.000</strong>
     <p>Terima kasih!</p>
   </div>
 
-  <div class="hidden-print">
-    <input type="text" id="nama-pelanggan" placeholder="Nama Pelanggan">
-    <br>
-    <input type="text" id="nama-barang" placeholder="Nama Barang">
-    <input type="number" id="harga" placeholder="Harga">
-    <button onclick="tambahBarang()">Tambah</button>
-    <br>
-    <button onclick="printStruk()">🖨️ Cetak Struk</button>
+  <div style="text-align:center">
+    <button onclick="shareStruk()">📤 Share Struk Sebagai Gambar</button>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    const itemList = $('#item-list');
-    let total = 0;
+    document.getElementById('tanggal').textContent = new Date().toLocaleString('id-ID');
 
-    function updateTanggal() {
-      const d = new Date();
-      const tgl = d.toLocaleDateString('id-ID') + " " + d.toLocaleTimeString('id-ID');
-      $('#tanggal').text("Tanggal: " + tgl);
-    }
+    async function shareStruk() {
+      const element = document.getElementById('struk');
+      const canvas = await html2canvas(element);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
-    function tambahBarang() {
-      const nama = $('#nama-barang').val();
-      const harga = parseInt($('#harga').val());
-      const pelanggan = $('#nama-pelanggan').val();
+      const file = new File([blob], "struk-karima.png", { type: "image/png" });
 
-      if (!nama || isNaN(harga)) {
-        alert('Isi nama barang dan harga dengan benar.');
-        return;
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Struk SRC Karima",
+          text: "Berikut struk belanja Anda."
+        });
+      } else {
+        alert("Fitur share file tidak didukung di perangkat ini.");
       }
-
-      $('#nama-pelanggan-text').text(pelanggan || '-');
-
-      const item = $(`
-        <div class="item">
-          <span>${nama}</span>
-          <span>Rp ${harga.toLocaleString('id-ID')}</span>
-        </div>
-      `);
-      itemList.append(item);
-
-      total += harga;
-      $('#total').text(total.toLocaleString('id-ID'));
-
-      $('#nama-barang').val('');
-      $('#harga').val('');
     }
-
-    function printStruk() {
-      updateTanggal();
-      window.print();
-    }
-
-    $(document).ready(function() {
-      updateTanggal();
-    });
   </script>
-
 </body>
+</html>
 </html>
