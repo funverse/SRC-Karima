@@ -1,23 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> SRC Karima </title>
-    <meta name="msapplication-TileColor" content="#af0a1a">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="shortcut icon" href="img/favicon.png">
-    <link rel="manifest" href="pwa-manifest.json">
-    <link rel="stylesheet" href="css/style.css">
-    <script type='text/javascript' src="js/main.js"></script>
-    <style> 
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRC Karima</title>
+  <meta name="msapplication-TileColor" content="#af0a1a">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="shortcut icon" href="img/favicon.png">
+  <link rel="manifest" href="pwa-manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <script type='text/javascript' src="js/main.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    .struk {
+      background: #fff;
+      padding: 15px;
+      max-width: 400px;
+      margin: auto;
+      border: 1px dashed #000;
+    }
+
+    .struk h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+
+    .hidden-print {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    input, button {
+      padding: 6px;
+      margin: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #af0a1a;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #870816;
+    }
+
+    @media print {
+      .hidden-print {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  
-  SABAR BOSS, BELUM JADI NIH!!!
-  
+
+  <div class="struk" id="struk">
+    <h2>SRC Karima</h2>
+    <p id="tanggal"></p>
+    <p>Pelanggan: <span id="nama-pelanggan-text">-</span></p>
+    <div id="item-list"></div>
+    <hr>
+    <p><strong>Total: Rp <span id="total">0</span></strong></p>
+    <p>Terima kasih!</p>
+  </div>
+
+  <div class="hidden-print">
+    <input type="text" id="nama-pelanggan" placeholder="Nama Pelanggan">
+    <br>
+    <input type="text" id="nama-barang" placeholder="Nama Barang">
+    <input type="number" id="harga" placeholder="Harga">
+    <button onclick="tambahBarang()">Tambah</button>
+    <br>
+    <button onclick="printStruk()">🖨️ Cetak Struk</button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const itemList = $('#item-list');
+    let total = 0;
+
+    function updateTanggal() {
+      const d = new Date();
+      const tgl = d.toLocaleDateString('id-ID') + " " + d.toLocaleTimeString('id-ID');
+      $('#tanggal').text("Tanggal: " + tgl);
+    }
+
+    function tambahBarang() {
+      const nama = $('#nama-barang').val();
+      const harga = parseInt($('#harga').val());
+      const pelanggan = $('#nama-pelanggan').val();
+
+      if (!nama || isNaN(harga)) {
+        alert('Isi nama barang dan harga dengan benar.');
+        return;
+      }
+
+      $('#nama-pelanggan-text').text(pelanggan || '-');
+
+      const item = $(`
+        <div class="item">
+          <span>${nama}</span>
+          <span>Rp ${harga.toLocaleString('id-ID')}</span>
+        </div>
+      `);
+      itemList.append(item);
+
+      total += harga;
+      $('#total').text(total.toLocaleString('id-ID'));
+
+      $('#nama-barang').val('');
+      $('#harga').val('');
+    }
+
+    function printStruk() {
+      updateTanggal();
+      window.print();
+    }
+
+    $(document).ready(function() {
+      updateTanggal();
+    });
+  </script>
+
 </body>
 </html>
