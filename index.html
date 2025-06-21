@@ -35,7 +35,9 @@
       -webkit-mask: var(--m);
       mask: var(--m);
     }
-    .receipt .logo { text-align: center; }
+    .receipt .logo {
+      text-align: center;
+    }
     .receipt .logo img {
       max-width: 150px;
       width: 100%;
@@ -65,8 +67,8 @@
     .receipt .list .item b {
       display: block;
     }
-    .receipt .footer { 
-      text-align:center
+    .receipt .footer {
+      text-align: center;
     }
 
     .editor {
@@ -80,8 +82,8 @@
       right: 0;
       border-radius: 5px 5px 0 0;
       z-index: 99999;
-      max-height:90%;
-      overflow:auto;
+      max-height: 90%;
+      overflow: auto;
     }
     .header {
       height: 50px;
@@ -140,8 +142,8 @@
       border: none;
       width: 100%;
       outline: none;
-      font-weight:600;
-      color:#1abc9c;
+      font-weight: 600;
+      color: #1abc9c;
     }
     .form .button {
       background: #1abc9c;
@@ -153,28 +155,22 @@
       margin-bottom: 15px;
       cursor: pointer;
     }
+
+    @media print {
+      .editor {
+        display: none !important;
+      }
+      body, html {
+        margin: 0;
+        padding: 0;
+        background: white;
+      }
+      .wrapper {
+        padding: 0;
+        background: white;
+      }
+    }
   </style>
-  <style media="print">
-  .receipt .logo img {
-    max-width: 150px !important;
-    width: auto !important;
-    height: auto !important;
-    display: block;
-    margin: 0 auto;
-  }
-  .editor {
-    display: none !important;
-  }
-  body, html {
-    margin: 0;
-    padding: 0;
-    background: white;
-  }
-  .wrapper {
-    padding: 0;
-    background: white;
-  }
-</style>
 </head>
 <body>
 
@@ -282,11 +278,7 @@ $(function() {
   $("#toggle-form").click(function() {
     $(".form").slideToggle(200);
     const icon = $(this).find("i");
-    if (icon.hasClass("fa-chevron-down")) {
-      icon.removeClass("fa-chevron-down").addClass("fa-chevron-up");
-    } else {
-      icon.removeClass("fa-chevron-up").addClass("fa-chevron-down");
-    }
+    icon.toggleClass("fa-chevron-down fa-chevron-up");
   });
 
   $("#tambah-barang").click(function() {
@@ -331,16 +323,20 @@ $(function() {
     $("#total-kembalian").text(formatRupiah(bayar - total));
   });
 
-  $("#print-struk").click(function() {
-    let content = $(".receipt").html();
-    let win = window.open("", "", "width=400,height=600");
-    win.document.write("<html><head><title>Struk</title>");
-    win.document.write('<style>body{font-family:monospace;font-size:13px;padding:10px;} .list, .section{display:grid;grid-template-columns:50% 50%;} .list .item:nth-child(2), .section div:nth-child(2){text-align:right;} .list .item span, .section div span{display:block;} .divider{border-top:1px dashed #999;margin:10px 0;}</style>');
-    win.document.write("</head><body>");
-    win.document.write(content);
-    win.document.write("</body></html>");
-    win.document.close();
-    win.print();
+  // CETAK SEPERTI GAMBAR
+  $("#print-struk").click(function () {
+    html2canvas(document.querySelector(".receipt")).then(function (canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write("<html><head><title>Cetak Struk</title></head><body style='margin:0;padding:0;'>");
+      printWindow.document.write(`<img src="${dataUrl}" style="width:100%;max-width:100%;"/>`);
+      printWindow.document.write("</body></html>");
+      printWindow.document.close();
+      printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+      };
+    });
   });
 
   $("#download-image").click(function () {
