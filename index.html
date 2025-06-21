@@ -37,15 +37,6 @@
     }
     .receipt .logo { text-align: center; }
     .receipt .logo img { width: 80%; }
-
-    /* FIX LOGO SAAT PRINT */
-    @media print {
-      .receipt .logo img {
-        max-width: 120px !important;
-        height: auto !important;
-      }
-    }
-
     .receipt .location {
       margin-top: 15px;
       text-align: center;
@@ -71,6 +62,7 @@
     .receipt .footer { 
       text-align:center
     }
+
     .editor {
       box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.15);
       background: #fff;
@@ -316,14 +308,7 @@ $(function() {
     let content = $(".receipt").html();
     let win = window.open("", "", "width=400,height=600");
     win.document.write("<html><head><title>Struk</title>");
-    win.document.write(`<style>
-      body { font-family: monospace; font-size: 13px; padding: 10px; }
-      img { max-width: 120px; height: auto; display: block; margin: 0 auto; }
-      .list, .section { display: grid; grid-template-columns: 50% 50%; }
-      .list .item:nth-child(2), .section div:nth-child(2) { text-align: right; }
-      .list .item span, .section div span { display: block; }
-      .divider { border-top: 1px dashed #999; margin: 10px 0; }
-    </style>`);
+    win.document.write('<style>body{font-family:monospace;font-size:13px;padding:10px;} .list, .section{display:grid;grid-template-columns:50% 50%;} .list .item:nth-child(2), .section div:nth-child(2){text-align:right;} .list .item span, .section div span{display:block;} .divider{border-top:1px dashed #999;margin:10px 0;}</style>');
     win.document.write("</head><body>");
     win.document.write(content);
     win.document.write("</body></html>");
