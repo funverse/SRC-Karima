@@ -19,8 +19,8 @@
     }
     .wrapper {
       background: #1abc9c;
-      height: 100vh;
-      padding: 0;
+      height: calc(100vh - 100px);
+      padding: 0 0 50px 0;
       overflow: auto;
     }
     .receipt {
@@ -29,7 +29,7 @@
       font-size: 19px; 
       font-weight:400;
       margin: 15px;
-      padding: 25px 15px 20px;
+      padding: 25px 15px 25px;
       --m:
         conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/8px 51% repeat-x,
         conic-gradient(from 135deg at top   ,#0000,#000 1deg 89deg,#0000 90deg) top   /8px 51% repeat-x;
@@ -49,6 +49,12 @@
     .receipt .location {
       margin-top: 15px;
       text-align: center;
+    }
+    .receipt .divider-printer { 
+      display:block; 
+      margin:0; 
+      padding:15px 0 15px 0; 
+      color:transparent;
     }
     .receipt .divider {
       border-top: 2px dashed #000;
@@ -70,7 +76,6 @@
     }
     .receipt .footer {
       text-align: center;
-      padding-bottom:30px;
     }
 
     .editor {
@@ -224,6 +229,7 @@
   </div>
 
   <div class="receipt">
+    <div class="divider-printer"> . </div>
     <div class="logo">
       <img src="img/logo.png" crossorigin="anonymous"/>
     </div>
@@ -258,7 +264,7 @@
     </div>
     <div class="divider"></div>
     <p class="footer"> Terimakasih telah berbelanja di Warung Bang Gondrong </p>
-    <p> _ </p>
+    <div class="divider-printer"> . </div>
   </div>
 
 </div>
