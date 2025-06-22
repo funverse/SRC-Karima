@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -200,26 +201,26 @@
     </div>
     <div class="form">
       <div class="form-section">
-        <label> Nama Barang: </label>
+        <label for="barang-nama">Nama Barang:</label>
         <input id="barang-nama" placeholder="">
       </div>
       <div class="form-section">
-        <label> Jumlah Barang: </label>
+        <label for="barang-jumlah">Jumlah Barang:</label>
         <input id="barang-jumlah" placeholder="">
       </div>
       <div class="form-section">
-        <label> Harga Satuan: </label>
+        <label for="barang-harga">Harga Satuan:</label>
         <input id="barang-harga" placeholder="">
       </div>
       <div class="button" id="tambah-barang">
         TAMBAHKAN
       </div>
       <div class="form-section">
-        <label> Nama pelanggan: </label>
+        <label for="pelanggan-nama">Nama pelanggan:</label>
         <input id="pelanggan-nama" placeholder="">
       </div>
       <div class="form-section">
-        <label> Uang Pelanggan: </label>
+        <label for="bayar-uang">Uang Pelanggan:</label>
         <input id="bayar-uang" placeholder="">
       </div>
     </div>
@@ -293,12 +294,39 @@ $(function() {
     $(this).find("i").toggleClass("fa-pencil fa-eye");
   });
   $("#tambah-barang").click(function() {
-    let nama = $("#barang-nama").val();
-    let jumlah = parseInt($("#barang-jumlah").val().replace(/\./g, "")) || 0;
-    let harga = parseInt($("#barang-harga").val().replace(/\./g, "")) || 0;
-    if (!nama || jumlah <= 0 || harga <= 0) return;
-    let subtotal = jumlah * harga;
+    let valid = true;
+
+    // Reset pesan sebelumnya
+    $(".form-section label").each(function () {
+      const label = $(this);
+      label.html(label.text().replace(/ *\*Bagian ini harus diisi terlebih dahulu */g, ""));
+    });
+
+    // Ambil dan validasi input
+    const nama = $("#barang-nama").val().trim();
+    const jumlahVal = $("#barang-jumlah").val().replace(/\./g, "").trim();
+    const hargaVal = $("#barang-harga").val().replace(/\./g, "").trim();
+
+    if (!nama) {
+      $("label[for='barang-nama']").append('<span style="color:red;"> *Bagian ini harus diisi terlebih dahulu </span>');
+      valid = false;
+    }
+    if (!jumlahVal || parseInt(jumlahVal) <= 0) {
+      $("label[for='barang-jumlah']").append('<span style="color:red;"> *Bagian ini harus diisi terlebih dahulu </span>');
+      valid = false;
+    }
+    if (!hargaVal || parseInt(hargaVal) <= 0) {
+      $("label[for='barang-harga']").append('<span style="color:red;"> *Bagian ini harus diisi terlebih dahulu </span>');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    const jumlah = parseInt(jumlahVal);
+    const harga = parseInt(hargaVal);
+    const subtotal = jumlah * harga;
     total += subtotal;
+
     $("#list-barang").append(`
       <div class="list">
         <div class="item">
@@ -310,10 +338,13 @@ $(function() {
         </div>
       </div>
     `);
+
     $("#total-belanja").text(formatRupiah(total));
-    let bayar = parseInt($("#bayar-uang").val().replace(/\./g, "")) || 0;
+    const bayar = parseInt($("#bayar-uang").val().replace(/\./g, "")) || 0;
     $("#total-bayar").text(formatRupiah(bayar));
     $("#total-kembalian").text(formatRupiah(bayar - total));
+
+    // Reset input
     $("#barang-nama").val("");
     $("#barang-jumlah").val("");
     $("#barang-harga").val("");
