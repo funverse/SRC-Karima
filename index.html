@@ -130,7 +130,7 @@
       border-top: 1px solid #ddd;
       padding-top: 15px;
       height: 340px;
-      display:none
+      display:block
     }
     .form .form-section {
       border: 1px solid #ddd;
@@ -195,7 +195,7 @@
       </div>
       <div class="right">
         <div class="button" id="toggle-form">
-          <i class="fad fa-pencil"></i>
+          <i class="fad fa-eye"></i>
         </div>
         <div class="button" id="download-image">
           <i class="fad fa-download"></i>
@@ -209,26 +209,26 @@
     <div class="form">
       <div class="form-section">
         <label> Nama Barang: </label>
-        <input id="barang-nama" placeholder="Mie Soto">
+        <input id="barang-nama" placeholder="Masukan nama barangnya disini...">
       </div>
       <div class="form-section">
         <label> Jumlah Barang: </label>
-        <input id="barang-jumlah" placeholder="1">
+        <input id="barang-jumlah" placeholder="Masukan jumlah barangnya disini...">
       </div>
       <div class="form-section">
         <label> Harga Satuan: </label>
-        <input id="barang-harga" placeholder="2500">
+        <input id="barang-harga" placeholder="Masukan harga satuan barang disini...">
       </div>
       <div class="button" id="tambah-barang">
         TAMBAHKAN
       </div>
       <div class="form-section">
         <label> Nama pelanggan: </label>
-        <input id="pelanggan-nama" placeholder="Agung Gantenk">
+        <input id="pelanggan-nama" placeholder="Masukan nama pelanggan disini...">
       </div>
       <div class="form-section">
         <label> Uang Pelanggan: </label>
-        <input id="bayar-uang" placeholder="20000">
+        <input id="bayar-uang" placeholder="Masukan uang pelanggan yang dibayar disini...">
       </div>
     </div>
   </div>
@@ -283,6 +283,10 @@
 <script>
 $(function() {
   let total = 0;
+
+  $(".form-section").on("click", function () {
+  $(this).find("input").focus();
+});
 
   function formatRupiah(angka) {
     return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
