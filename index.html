@@ -168,19 +168,46 @@
       transform:scale(1.1) 
     }
     @media print {
-      .editor {
-        display: none !important;
-      }
-      body, html {
-        margin: 0;
-        padding: 0;
-        background: white;
-      }
-      .wrapper {
-        padding: 0;
-        background: white;
-      }
-    }
+  body, html {
+    margin: 0;
+    padding: 0;
+    background: white;
+    font-size: 5mm;
+    font-family: 'Courier New', monospace;
+  }
+
+  .editor, .wrapper2 {
+    display: none !important;
+  }
+
+  .wrapper {
+    padding: 0;
+    background: white;
+  }
+
+  .receipt {
+    width: 58mm; /* Atur sesuai printer thermal: 58mm atau 80mm */
+    margin: auto;
+    font-size: 5mm;
+    line-height: 1.5;
+  }
+
+  .receipt .logo img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .divider,
+  .divider-printer {
+    border-top: 1px dashed #000;
+    margin: 10px 0;
+  }
+
+  .footer {
+    font-size: 4mm;
+    text-align: center;
+  }
+}
   </style>
 </head>
 <body>
@@ -197,10 +224,10 @@
         <div class="button" id="download-image">
           <i class="fad fa-download"></i>
         </div>
-        <div class="button" id="print-struk">
-          <i class="fad fa-print"></i> &nbsp;
-          <span> PRINT </span>
-        </div>
+        <div class="button" onclick="window.print()">
+  <i class="fad fa-print"></i> &nbsp;
+  <span> CETAK </span>
+</div>
       </div>
     </div>
     <div class="form">
