@@ -208,6 +208,27 @@
     text-align: center;
   }
 }
+
+@media print {
+  body, html {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+  .wrapper {
+    padding: 0;
+    background: white;
+    width: 58mm; /* Lebar cetak maksimum */
+    max-width: 58mm;
+  }
+  .receipt {
+    font-size: 4mm; /* Perbesar font agar jelas */
+    width: 58mm;
+    max-width: 58mm;
+    padding: 0;
+    margin: 0 auto;
+  }
+}
   </style>
 </head>
 <body>
