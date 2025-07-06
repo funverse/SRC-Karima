@@ -12,8 +12,11 @@
     body {
       font-family: "DM Sans", Arial, sans-serif;
       background: #1abc9c;
-      margin: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
       padding: 0;
+      margin: 0;
     }
     .wrapper {
       background: #1abc9c;
@@ -22,9 +25,11 @@
     }
     .receipt {
       background: #fff;
-      font-size: 13px;
+      font-family: 'DM Sans', monospace;
+      font-size: 19px; 
+      font-weight:400;
       margin: 15px;
-      padding: 25px 15px;
+      padding: 25px 15px 25px;
       --m:
         conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/8px 51% repeat-x,
         conic-gradient(from 135deg at top   ,#0000,#000 1deg 89deg,#0000 90deg) top   /8px 51% repeat-x;
@@ -45,6 +50,14 @@
       margin-top: 15px;
       text-align: center;
     }
+    .receipt .divider-printer { 
+      display:block; 
+      margin:0; 
+      padding:15px 0; 
+      color:#000;
+      text-align:center;
+      width:100%;
+    }
     .receipt .divider {
       border-top: 2px dashed #000;
       margin: 15px 0;
@@ -58,7 +71,7 @@
     .receipt .list .item:nth-child(2) {
       text-align: right;
     }
-    .receipt .section span,
+    .receipt .section div span,
     .receipt .list .item span,
     .receipt .list .item b {
       display: block;
@@ -66,11 +79,12 @@
     .receipt .footer {
       text-align: center;
     }
-    .wrapper2 {
-      background: rgba(0,0,0,0.1);
-      padding: 15px;
+    .wrapper2 { 
+      background:rgba(0,0,0,0.1); 
+      padding:15px
     }
     .editor {
+      box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.15);
       background: #fff;
       color: #000;
       padding: 15px;
@@ -92,61 +106,79 @@
     }
     .header .right .button {
       background: #eee;
-      font-weight: bold;
+      color: #000;
+      font-weight: 700;
+      display: inline-block;
       border-radius: 5px;
       padding: 5px 10px;
+      transition: 0.1s;
       cursor: pointer;
-      display: inline-block;
       margin-left: 5px;
+    }
+    .header .right .button:active {
+      transform: scale(1.05);
+    }
+    .header .right .button:hover {
+      background: #ddd;
     }
     .form {
       margin-top: 15px;
       border-top: 1px solid #ddd;
       padding-top: 15px;
+      height: 340px;
+      display:block
     }
     .form .form-section {
-      margin-bottom: 10px;
-      border:1px solid #ddd; 
-      border-radius:5px;
-      padding:5px; 
-      overflow:hidden;
+      border: 1px solid #ddd;
+      padding: 5px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+    .form .form-section:hover {
+      border: 1px solid #1abc9c;
     }
     .form .form-section label {
-      font-weight: bold;
-      font-size: 12px;
+      font-weight: 700;
+      font-size: 10px;
       display: block;
+      color: #444;
     }
     .form .form-section input {
+      font-family: "DM Sans", Arial, sans-serif;
       font-size: 15px;
-      font-weight: bold;
-      width: 100%;
+      padding: 0;
       border: none;
+      width: 100%;
       outline: none;
+      font-weight: 700;
       color: #1abc9c;
     }
     .form .button {
       background: #1abc9c;
       color: #fff;
       border-radius: 5px;
-      padding: 5px;
       text-align: center;
+      font-weight: 700;
+      padding: 5px;
+      margin-bottom: 15px;
       cursor: pointer;
+      transition:0.2s;
     }
-
+    .form .button:active { 
+      transform:scale(1.1) 
+    }
     @media print {
+      .editor {
+        display: none !important;
+      }
       body, html {
         margin: 0;
         padding: 0;
         background: white;
       }
-      .wrapper2, .editor {
-        display: none !important;
-      }
       .wrapper {
         padding: 0;
-      }
-      .receipt {
-        font-size:13px;
+        background: white;
       }
     }
   </style>
@@ -155,48 +187,68 @@
 <div class="wrapper2">
   <div class="editor">
     <div class="header">
-      <div class="title"><h2>STRUK</h2></div>
+      <div class="title">
+        <h2> STRUK </h2>
+      </div>
       <div class="right">
-        <div class="button" id="toggle-form"><i class="fad fa-eye"></i></div>
-        <div class="button" id="print-struk"><i class="fad fa-print"></i> PRINT</div>
+        <div class="button" id="toggle-form">
+          <i class="fad fa-eye"></i>
+        </div>
+        <div class="button" id="download-image">
+          <i class="fad fa-download"></i>
+        </div>
+        <div class="button" id="print-struk">
+          <i class="fad fa-print"></i> &nbsp;
+          <span> PRINT </span>
+        </div>
       </div>
     </div>
     <div class="form">
       <div class="form-section">
         <label for="barang-nama">Nama Barang:</label>
-        <input id="barang-nama" />
+        <input id="barang-nama" placeholder="">
       </div>
       <div class="form-section">
         <label for="barang-jumlah">Jumlah Barang:</label>
-        <input id="barang-jumlah" />
+        <input id="barang-jumlah" placeholder="">
       </div>
       <div class="form-section">
         <label for="barang-harga">Harga Satuan:</label>
-        <input id="barang-harga" />
+        <input id="barang-harga" placeholder="">
       </div>
-      <div class="button" id="tambah-barang">TAMBAHKAN</div>
+      <div class="button" id="tambah-barang">
+        TAMBAHKAN
+      </div>
       <div class="form-section">
-        <label for="pelanggan-nama">Nama Pelanggan:</label>
-        <input id="pelanggan-nama" />
+        <label for="pelanggan-nama">Nama pelanggan:</label>
+        <input id="pelanggan-nama" placeholder="">
       </div>
       <div class="form-section">
         <label for="bayar-uang">Uang Pelanggan:</label>
-        <input id="bayar-uang" />
+        <input id="bayar-uang" placeholder="">
       </div>
     </div>
   </div>
 </div>
-
 <div class="wrapper">
-  <div class="receipt" id="area-cetak">
+  <div class="receipt">
+    <div class="divider-printer"> ... </div>
     <div class="logo">
-      <img src="img/logo.png" crossorigin="anonymous" />
+      <img src="img/logo.png" crossorigin="anonymous"/>
     </div>
-    <div class="location">Jl. Jatinegara Barat, Kp. Melayu, Jatinegara, Jakarta Timur, Rusunawa</div>
+    <div class="location">
+      Jl. Jatinegara Barat, Kp. Melayu, Jatinegara, Jakarta Timur, Rusunawa
+    </div>
     <div class="divider"></div>
     <div class="section">
-      <div><span>Nama Pelanggan:</span><span id="tampil-pelanggan">-</span></div>
-      <div><span>27 Juni 2025</span><span id="jam-sekarang">21:05</span></div>
+      <div class="customer">
+        <span> Nama Pelanggan: </span>
+        <span id="tampil-pelanggan"> - </span>
+      </div>
+      <div class="date">
+        <span>27 Juni 2025</span>
+        <span id="jam-sekarang">21:05</span>
+      </div>
     </div>
     <div class="divider"></div>
     <div id="list-barang"></div>
@@ -214,28 +266,68 @@
       <div class="item"><span id="total-kembalian">Rp 0</span></div>
     </div>
     <div class="divider"></div>
-    <p class="footer">Terimakasih telah berbelanja di Warung Bang Gondrong</p>
+    <p class="footer"> Terimakasih telah berbelanja di Warung Bang Gondrong </p>
+    <div class="divider-printer"> ... </div>
   </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 $(function() {
   let total = 0;
-  const formatRupiah = angka => "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-  function updateTotal() {
-    const bayar = parseInt($("#bayar-uang").val().replace(/\D/g, "")) || 0;
-    $("#total-bayar").text(formatRupiah(bayar));
-    $("#total-kembalian").text(formatRupiah(bayar - total));
+  function formatRupiah(angka) {
+    return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
+  function formatInputRupiah(selector) {
+    $(selector).on("input", function () {
+      let value = $(this).val().replace(/\D/g, "");
+      if (!value) return $(this).val("");
+      $(this).val(value.replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+    });
+  }
+  formatInputRupiah("#barang-jumlah");
+  formatInputRupiah("#barang-harga");
+  formatInputRupiah("#bayar-uang");
+  $(".form-section").on("click", function () {
+    $(this).find("input").focus();
+  });
+  const now = new Date();
+  $("#jam-sekarang").text(`${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`);
+  $("#toggle-form").click(function() {
+    $(".form").slideToggle(200);
+    $(this).find("i").toggleClass("fa-pencil fa-eye");
+  });
+  $("#tambah-barang").click(function() {
+    let valid = true;
 
-  $("#tambah-barang").click(() => {
+    // Reset pesan sebelumnya
+    $(".form-section label").each(function () {
+      const label = $(this);
+      label.html(label.text().replace(/ *\*Bagian ini harus diisi terlebih dahulu */g, ""));
+    });
+
+    // Ambil dan validasi input
     const nama = $("#barang-nama").val().trim();
-    const jumlah = parseInt($("#barang-jumlah").val().replace(/\D/g, ""));
-    const harga = parseInt($("#barang-harga").val().replace(/\D/g, ""));
-    if (!nama || !jumlah || !harga) return;
+    const jumlahVal = $("#barang-jumlah").val().replace(/\./g, "").trim();
+    const hargaVal = $("#barang-harga").val().replace(/\./g, "").trim();
 
+    if (!nama) {
+      $("label[for='barang-nama']").append('<span style="color:red;"> *Bagian ini harus diisi terlebih dahulu </span>');
+      valid = false;
+    }
+    if (!jumlahVal || parseInt(jumlahVal) <= 0) {
+      $("label[for='barang-jumlah']").append('<span style="color:red;"> *Bagian ini harus diisi terlebih dahulu </span>');
+      valid = false;
+    }
+    if (!hargaVal || parseInt(hargaVal) <= 0) {
+      $("label[for='barang-harga']").append('<span style="color:red;"> *Bagian ini harus diisi terlebih dahulu </span>');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    const jumlah = parseInt(jumlahVal);
+    const harga = parseInt(hargaVal);
     const subtotal = jumlah * harga;
     total += subtotal;
 
@@ -252,27 +344,53 @@ $(function() {
     `);
 
     $("#total-belanja").text(formatRupiah(total));
-    updateTotal();
-    $("#barang-nama, #barang-jumlah, #barang-harga").val("");
-  });
+    const bayar = parseInt($("#bayar-uang").val().replace(/\./g, "")) || 0;
+    $("#total-bayar").text(formatRupiah(bayar));
+    $("#total-kembalian").text(formatRupiah(bayar - total));
 
-  $("#pelanggan-nama").on("input", function () {
+    // Reset input
+    $("#barang-nama").val("");
+    $("#barang-jumlah").val("");
+    $("#barang-harga").val("");
+  });
+  $("#pelanggan-nama").on("input", function() {
     $("#tampil-pelanggan").text($(this).val());
   });
-
-  $("#bayar-uang").on("input", updateTotal);
-
-  const now = new Date();
-  $("#jam-sekarang").text(
-    `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`
-  );
-
-  $("#print-struk").click(() => {
-    window.print();
+  $("#bayar-uang").on("input", function() {
+    let bayar = parseInt($(this).val().replace(/\./g, "")) || 0;
+    $("#total-bayar").text(formatRupiah(bayar));
+    $("#total-kembalian").text(formatRupiah(bayar - total));
   });
-
-  $("#toggle-form").click(function () {
-    $(".form").slideToggle();
+  function cloneReceiptAndRender(callback) {
+    const clone = $(".receipt").clone();
+    const container = $("<div>").css({ position: "absolute", left: "-9999px", top: "0" }).append(clone);
+    $("body").append(container);
+    html2canvas(clone[0]).then(function (canvas) {
+      container.remove();
+      callback(canvas);
+    });
+  }
+  $("#print-struk").click(function () {
+    cloneReceiptAndRender(function(canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write("<html><head><title>Cetak Struk</title></head><body style='margin:0;padding:0;'>");
+      printWindow.document.write(`<img src="${dataUrl}" style="width:100%;max-width:100%;"/>`);
+      printWindow.document.write("</body></html>");
+      printWindow.document.close();
+      printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+      };
+    });
+  });
+  $("#download-image").click(function () {
+    cloneReceiptAndRender(function(canvas) {
+      const link = document.createElement("a");
+      link.download = "struk.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    });
   });
 });
 </script>
