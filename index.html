@@ -201,9 +201,9 @@
           <i class="fad fa-download"></i>
         </div>
         <div class="button" onclick="window.print()">
-  <i class="fad fa-print"></i> &nbsp;
-  <span> CETAK </span>
-</div>
+          <i class="fad fa-print"></i> &nbsp;
+          <span> CETAK </span>
+        </div>
       </div>
     </div>
     <div class="form">
@@ -219,9 +219,7 @@
         <label for="barang-harga">Harga Satuan:</label>
         <input id="barang-harga" placeholder="">
       </div>
-      <div class="button" id="tambah-barang">
-        TAMBAHKAN
-      </div>
+      <div class="button" id="tambah-barang">TAMBAHKAN</div>
       <div class="form-section">
         <label for="pelanggan-nama">Nama pelanggan:</label>
         <input id="pelanggan-nama" placeholder="">
@@ -248,8 +246,8 @@
         <span id="tampil-pelanggan"> - </span>
       </div>
       <div class="date">
-        <span>27 Juni 2025</span>
-        <span id="jam-sekarang">21:05</span>
+        <span id="tanggal-sekarang"></span>
+        <span id="jam-sekarang"></span>
       </div>
     </div>
     <div class="divider"></div>
@@ -292,22 +290,26 @@ $(function() {
   $(".form-section").on("click", function () {
     $(this).find("input").focus();
   });
+
   const now = new Date();
+  const options = { day: "numeric", month: "long", year: "numeric" };
+  const tanggalFormat = now.toLocaleDateString("id-ID", options);
+  $("#tanggal-sekarang").text(tanggalFormat);
   $("#jam-sekarang").text(`${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`);
+
   $("#toggle-form").click(function() {
     $(".form").slideToggle(200);
     $(this).find("i").toggleClass("fa-pencil fa-eye");
   });
+
   $("#tambah-barang").click(function() {
     let valid = true;
 
-    // Reset pesan sebelumnya
     $(".form-section label").each(function () {
       const label = $(this);
       label.html(label.text().replace(/ *\*Bagian ini harus diisi terlebih dahulu */g, ""));
     });
 
-    // Ambil dan validasi input
     const nama = $("#barang-nama").val().trim();
     const jumlahVal = $("#barang-jumlah").val().replace(/\./g, "").trim();
     const hargaVal = $("#barang-harga").val().replace(/\./g, "").trim();
@@ -349,19 +351,21 @@ $(function() {
     $("#total-bayar").text(formatRupiah(bayar));
     $("#total-kembalian").text(formatRupiah(bayar - total));
 
-    // Reset input
     $("#barang-nama").val("");
     $("#barang-jumlah").val("");
     $("#barang-harga").val("");
   });
+
   $("#pelanggan-nama").on("input", function() {
     $("#tampil-pelanggan").text($(this).val());
   });
+
   $("#bayar-uang").on("input", function() {
     let bayar = parseInt($(this).val().replace(/\./g, "")) || 0;
     $("#total-bayar").text(formatRupiah(bayar));
     $("#total-kembalian").text(formatRupiah(bayar - total));
   });
+
   function cloneReceiptAndRender(callback) {
     const clone = $(".receipt").clone();
     const container = $("<div>").css({ position: "absolute", left: "-9999px", top: "0" }).append(clone);
@@ -371,20 +375,7 @@ $(function() {
       callback(canvas);
     });
   }
-  $("#print-struk").click(function () {
-    cloneReceiptAndRender(function(canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      const printWindow = window.open("", "_blank");
-      printWindow.document.write("<html><head><title>Cetak Struk</title></head><body style='margin:0;padding:0;'>");
-      printWindow.document.write(`<img src="${dataUrl}" style="width:100%;max-width:100%;"/>`);
-      printWindow.document.write("</body></html>");
-      printWindow.document.close();
-      printWindow.onload = function () {
-        printWindow.focus();
-        printWindow.print();
-      };
-    });
-  });
+
   $("#download-image").click(function () {
     cloneReceiptAndRender(function(canvas) {
       const link = document.createElement("a");
@@ -396,4 +387,4 @@ $(function() {
 });
 </script>
 </body>
-</html>
+        </html>
